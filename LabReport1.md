@@ -1,7 +1,5 @@
 <body style="background-color:#11C69F;">
 
-<link rel="icon" type="image/png" href="/favicon.png">
-
 # Lab report 1 - A tutorial for incoming CSE 15L students
 #### *by David Kim*
 
