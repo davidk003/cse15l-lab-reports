@@ -61,7 +61,7 @@ Ex: I would type in ssh cs15lwi23avr@ieng6.ucsd.edu because my course username i
 
 The terminal should then ask you for your password, and entering your password should log you in.
 
-![Image](/pngs/passwordScreenshot.png)
+![Image](/pngs/lab1/passwordScreenshot.png)
 
 On your very first login, you might encounter something like this:
 
@@ -74,7 +74,7 @@ Type yes, then right after type in your password for the next prompt.
 
 You should see something like this when you first login anytime.
 
-![Image](/pngs/loginScreenshot.png)
+![Image](/pngs/lab1/loginScreenshot.png)
 
 # Trying Some Commands
 Now, assuming that we have a connection to the machine using ssh lets try using some commands.
@@ -84,7 +84,7 @@ Try running:
 
 `pwd` - stands for print working directory
 
-![Image](/pngs/pwdScreenshot.png)
+![Image](/pngs/lab1/pwdScreenshot.png)
 
 `ls`    - lists the files and directories under the current location you are in.
 
@@ -92,31 +92,31 @@ Try running:
 
 `ls <directory>` - Where `<directory>` is some path in the system, lists files and directories in the given directory.
 
-![Image](/pngs/lsScreenshot.png)
+![Image](/pngs/lab1/lsScreenshot.png)
 
 `cd <directory>`    - stands for "change directory" and changes your current directory location.
 
 `cd ~` - which changes the directory to "~" which is known as the root directory of a system.
 
-![Image](/pngs/cdScreenshot.png)
+![Image](/pngs/lab1/cdScreenshot.png)
 
 `touch <file name>` Creates a file name in the current working directory with the given name.
 
 `rm <file path>` Deletes or removes a file.
 
-![Image](/pngs/touchScreenshot.png)
+![Image](/pngs/lab1/touchScreenshot.png)
 
 `nano <file name>` Opens file in a command line text editor.
 
-![Image](/pngs/nanoScreenshot.png)
+![Image](/pngs/lab1/nanoScreenshot.png)
 
 `cp <file path> <directory>` - copies a file from a file path to the given directory.
 
-![Image](/pngs/cpScreenshot.png)
+![Image](/pngs/lab1/cpScreenshot.png)
 
 `cat <file path>` - prints out the contents of a file (Ex: prints out text in a file).  
 
-![Image](/pngs/catScreenshot.png)
+![Image](/pngs/lab1/catScreenshot.png)
 
 If you ever have any questions about a command try `man <command>` to get a directions manual of a given command.
 
