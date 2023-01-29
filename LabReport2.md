@@ -62,6 +62,13 @@ class StringServer {
 }
 
 ```
+Example of the root path:
+![Image](/lab2/part1-screenshot1.png)
+<br>
+
+![Image](/lab2/part1-screenshot2.png)
+
+![Image](/lab2/part1-screenshot3.png)
 ### Part 2
 
 ### Part 3
