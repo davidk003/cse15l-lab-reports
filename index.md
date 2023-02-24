@@ -11,4 +11,7 @@
 ![image](/gifs/forsenLaughingAtYou.webp)
 [Lab Report 3](LabReport3.md)
 
+![image](/gifs/PLAY.webp)
+[Lab Report 3](LabReport3.md)
+
 ---
