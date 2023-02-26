@@ -170,7 +170,7 @@ You should see a message like this, showing that the tests passed successfully:
 
 ## Step 9: Commit and push the resulting change to your Github account (you can pick any commit message!)
 
-Now that we have finished fixing the code, we can move onto making the updates availible to our repository.
+Now that we have finished fixing the code, we can move onto making the updates available to our repository.
 
 * Type `git add ListExamples.java` and `<enter>` to add the file as a change.
 * Type `git commit -m "[Your commit message here]"` to commit the change.
@@ -183,7 +183,7 @@ The output should be something like this after push:
 
 ![image](pngs/lab4/step9_1.png)
 
-Stop your timer and congratulate yourself for finishing! Your changes should be availible online and this is the end of the list of steps.
+Stop your timer and congratulate yourself for finishing! Your changes should be available online and this is the end of the list of steps.
 
 # THE END
 
