@@ -177,7 +177,7 @@ Now that we have finished fixing the code, we can move onto making the updates a
 
 For example, I used `git commit -m "Fixed ListExamples to pass Junit test"`
 
-*Type `git push` to finish off the and send the changes to your online github repository.
+* Type `git push` to finish off the and send the changes to your online github repository.
 
 The output should be something like this after push:
 
