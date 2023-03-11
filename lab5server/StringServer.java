@@ -3,8 +3,6 @@ import java.net.URI;
 import java.util.ArrayList;
 import java.util.Date;
 class Handler implements URLHandler {
-    // The one bit of state on the server: a number that will be manipulated by
-    // various requests.
     public record ServerRequest(Date reqDate, String reqType, String message){}
 
     ArrayList<String> stringList = new ArrayList<>();
