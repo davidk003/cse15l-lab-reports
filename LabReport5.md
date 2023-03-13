@@ -19,4 +19,282 @@ Part 2: Choose a bug from week 3's lab and provide:
 * A failure-inducing input
 * An input that doesn’t induce a failure
 * The symptom
-* The bug, as the before-and-after code change required to fix it 
+* The bug, as the before-and-after code change required to fix it
+
+Part 3:
+
+In a couple of sentences, describe something you learned from lab in week 2 or 3 that you didn’t know before.
+
+## Part 1: StringServer
+For lab report 5, I added extra parts to the string server. On top of supporting functionality to add strings to the server, I also supported removing strings and logging requests to the server.
+
+Code from StringServer.java
+``` java
+import java.io.IOException;
+import java.net.URI;
+import java.util.ArrayList;
+import java.util.Date;
+class Handler implements URLHandler {
+    public record ServerRequest(Date reqDate, String reqType, String message){}
+
+    ArrayList<String> stringList = new ArrayList<>();
+    ArrayList<ServerRequest> requestLog = new ArrayList<>();
+    String outputString = "";
+
+
+    public String handleRequest(URI url) {
+        if (url.getPath().equals("/")) {
+            outputString = "STRING SERVER CONTENTS:\n"; //Reset string
+            for (String s : stringList) {
+                outputString = outputString + s + "\n";
+            }
+            return outputString;
+        }
+        else
+        {
+            System.out.println("Path: " + url.getPath());
+            if (url.getPath().contains("/add-message"))
+            {
+                String[] parameters = url.getQuery().split("=");
+                if (parameters[0].equals("s"))
+                {
+                    stringList.add(parameters[1]);
+                    requestLog.add(new ServerRequest(new Date(System.currentTimeMillis()), "/add-message", parameters[1]));
+                    return "Added [" + parameters[1] + "] to the stringserver.\n";
+                }
+            }
+            else if(url.getPath().contains("/remove-message"))
+            {
+                String[] parameters = url.getQuery().split("=");
+                if (parameters[0].equals("s"))
+                {
+                    if(stringList.contains(parameters[1]))
+                    {
+                        int count = 0;
+                        while(stringList.contains(parameters[1]))
+                        {
+                            stringList.remove(parameters[1]);
+                            count++;
+                        }
+                        requestLog.add(new ServerRequest(new Date(System.currentTimeMillis()),"/remove-message", parameters[1]));
+                        return "Removed " + count + " instances of [" + parameters[1] + "] from the stringserver.\n";
+                    }
+                    else
+                    {
+                        requestLog.add(new ServerRequest(new Date(System.currentTimeMillis()),"/remove-message[FAILED]", parameters[1]));
+                        return "Failed removing [" + parameters[1] + "], does not exist in stringserver.\n";
+                    }
+                }
+            }
+            else if(url.getPath().contains("/request-logs"))
+            {
+                outputString = "LOG START\n";
+                for (ServerRequest serverRequest : requestLog) {
+                    outputString = outputString + serverRequest.reqDate() + "| Request: " + serverRequest.reqType() + " " + serverRequest.message() + "\n";
+                }
+                outputString += "LOG END.\n";
+                return outputString;
+            }
+            return "404 Not Found!";
+        }
+    }
+}
+
+class StringServer {
+    public static void main(String[] args) throws IOException {
+        if(args.length == 0){
+            System.out.println("Missing port number! Try any number between 1024 to 49151");
+            return;
+        }
+
+        int port = Integer.parseInt(args[0]);
+        Server.start(port, new Handler());
+    }
+}
+```
+
+Implementation details:
+
+I used an `ArrayList` of strings to contain the strings that will be recorded by the server. Another `ArrayList` was used to contain a record structure that I named `ServerRequest`. `ServerRequest` contains the time the request was made, the type of request and parameter used in the request.
+
+### Testing `/add-message?s=<string>`
+
+Initial root contents:
+
+![image](pngs/lab5/part1root.png)
+
+Adding `test1` to the StringServer:
+
+![image](pngs/lab5/part1test1.png)
+
+Root after adding `test1`:
+
+![image](pngs/lab5/part1test1root.png)
+
+Adding `test1` to `test10` and one more `test1` to the StringServer:
+
+![image](pngs/lab5/part1test10.png)
+
+Root after adding all those strings:
+
+![image](pngs/lab5/part1test10root.png)
+
+### Testing `/remove-message?s=<string>`
+
+Assume that the strings in the server carried over from the last section for `/add-message`
+
+Removing `test1` from the StringServer:
+
+![image](pngs/lab5/part1test1remove.png)
+
+Root after removing `test1`:
+
+![image](pngs/lab5/part1test1removeroot.png)
+
+Removing `test5` from the StringServer:
+
+![image](pngs/lab5/part1test5remove.png)
+
+Root after removing `test5`:
+
+![image](pngs/lab5/part1test5removeroot.png)
+
+### Testing `/request-logs`
+
+After all the commands from the previous section my command's output looks like the following.
+
+![image](pngs/lab5/part1requestlog.png)
+
+The date, request and string requested is a part of a singular request log.
+
+## Part 2: Debugging
+
+For lab report 5, I decided to debug and fix the 2 remaining methods in the `ArrayExamples.java` file that I did not debug from lab report 2. `reverseInPlace()`  and `reversed()` 
+
+### `reverseInPlace()` 
+
+Failure inducing input:
+
+* The array `[1, 2, 3]` should be reversed to `[3, 2, 1]` but the method `reverseInPlace()` fails to do so.
+
+``` java
+@Test 
+public void testReverseInPlace2() {
+int[] input1 = { 1,2,3 };
+ArrayExamples.reverseInPlace(input1);
+assertArrayEquals(new int[]{ 3,2,1 }, input1);
+}
+```
+
+Non-failure inducing input:
+
+* The array `[3]` should be reversed to `[3]` and the method `reverseInPlace()` succeeds.
+
+``` java
+@Test 
+public void testReverseInPlace() {
+int[] input1 = { 3 };
+ArrayExamples.reverseInPlace(input1);
+assertArrayEquals(new int[]{ 3 }, input1);
+}
+```
+
+Symptom of running the tests:
+
+Failure symptom:
+
+![image](pngs/lab5/part2failuretest.png)
+
+Non-failure symptom:
+
+![image](pngs/lab5/part2nonfailuretest.png)
+
+The bug fix:
+
+BEFORE
+``` java
+static void reverseInPlace(int[] arr) {
+    for(int i = 0; i < arr.length; i += 1) {
+      arr[i] = arr[arr.length - i - 1];
+    }
+  }
+```
+AFTER
+```java
+static void reverseInPlaceFixed(int[] arr) {
+    for(int i = 0; i < arr.length/2; i += 1) {
+    int temp = arr[i];
+    arr[i] = arr[arr.length - i - 1];
+    arr[arr.length - i - 1] = temp;
+    }
+}
+```
+
+To fix reverseInPlace(), I used a temporary variable used to swap the indexes of the array. I also changed the bounds of the loop to be half the size of the array to "mirror" each half of the array and if there is a middle element, it would remain unswapped.
+
+### `reversed()`
+
+Failure inducing input:
+
+* The array `[1, 2, 3]` should be reversed to `[3, 2, 1]` but the method `reversed()` fails to do so.
+
+``` java
+  @Test
+  public void testReversed2() {
+    int[] input1 = {1,2,3};
+    assertArrayEquals(new int[]{3,2,1}, ArrayExamples.reversed(input1));
+  }
+```
+
+Non-failure inducing input:
+
+* Reversing an empty array does nothing and therefore the method `reversed()` succeeds.
+
+``` java
+  @Test
+  public void testReversed() {
+    int[] input1 = { };
+    assertArrayEquals(new int[]{ }, ArrayExamples.reversed(input1));
+  }
+```
+
+
+Symptom of running the tests:
+
+Failure symptom:
+
+![image](pngs/lab5/part2failuretest2.png)
+
+Non-failure symptom:
+
+![image](pngs/lab5/part2nonfailuretest2.png)
+
+The bug fix:
+
+BEFORE
+``` java
+static int[] reversed(int[] arr) {
+    int[] newArray = new int[arr.length];
+    for(int i = 0; i < arr.length; i += 1) {
+      arr[i] = newArray[arr.length - i - 1];
+    }
+    return arr;
+  }
+
+```
+AFTER
+```java
+  static int[] reversedFixed(int[] arr) {
+    int[] newArray = new int[arr.length];
+    for(int i = 0; i < arr.length; i += 1) {
+      newArray[i] = arr[arr.length - i - 1];
+    }
+    return newArray;
+  }
+```
+
+The fix i made for this `reversed()` method was very simple. I noticed that the array assignments were flipped, instead of `newArray[i] = arr[arr.length - i - 1];`, the original method had `arr[i] = newArray[arr.length - i - 1];` which meant that it was assigning values to the old array and overwriting itself. The method should also return the `newArray` instead of `arr` which is the old array.
+
+## Part 3: Reflection
+
+I indirectly learned how to use java's built in Date functionality and how to use the java Record class as a result of implementing the logging functionality. On top of that, I was reminded again on how webservers's path structure and request handling worked through this lab report.

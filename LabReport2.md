@@ -192,6 +192,7 @@ static double averageWithoutLowest(double[] arr) {
     }
     return sum / (arr.length - 1);
   }
+
 ```
 ### Fixed code
 ```java
