@@ -117,8 +117,26 @@ Implementation details:
 
 I used an `ArrayList` of strings to contain the strings that will be recorded by the server. Another `ArrayList` was used to contain a record structure that I named `ServerRequest`. `ServerRequest` contains the time the request was made, the type of request and parameter used in the request.
 
-### Testing `/add-message?s=<string>`
+### Details and Testing `/add-message?s=<string>`
 
+### Details
+For the details of each server command, because I already explained the conditionals for pathfinding in lab report 2, I will detail the new additions for the code.
+
+What methods are called?
+* 2 `add()` calls
+* `currentTimeMillis()`
+1 call, `stringList.add();` is used to add a string to server, the 2nd call, `requestLog.add()`, is used to log a command request. `currentTimeMillis()` gets the current miliseconds from unix time to be used to log a server request.
+
+Relevant arguments?
+* `parameters[1]` is passed to add to `stringList`, an ArrayList that contains all the strings in the stringserver.
+* `new ServerRequest(new Date(System.currentTimeMillis()), "/add-message", parameters[1])` is a parameter to `add()` to `requestLog` which is an ArrayList of records. A new record is created and added in the parameter with the current time, the `/add-message` command type, and the string used with the command, `parameters[1]`.
+
+Relevant class fields that changed?
+
+The `stringList` and `requestLog` ArrayLists should have changed to add the new string as well as a log for the request, with its time, request type and string added.
+
+
+### Testing
 Initial root contents:
 
 ![image](pngs/lab5/part1root.png)
@@ -139,7 +157,27 @@ Root after adding all those strings:
 
 ![image](pngs/lab5/part1test10root.png)
 
-### Testing `/remove-message?s=<string>`
+### Details and Testing `/remove-message?s=<string>`
+
+### Details
+
+What methods are called?
+* 2 calls to `contains()`
+* `remove()`
+* `currentTimeMillis()`
+* `add()`
+
+2 calls to `contains()` are used to loop and check and to continunally remove all instanced of a string from the string server. `remove()` is used to the string from `stringList`, which contains the strings in the server. `currentTimeMillis()` is used again to record the time for request logging, and `add()` is called to add to the ArrayList recording server requests.
+
+Relevant arguments?
+* `parameters[1]` is passed to check the `stringList` with `contains()` to eventually used as a parameter in `remove()` if the string is found.
+* `new ServerRequest(new Date(System.currentTimeMillis()), "/remove-message", parameters[1])` is a parameter to `add()` to `requestLog` which is an ArrayList of records. A new record is created and added in the parameter with the current time, the `/remove-message` command type, and the string used with the command, `parameters[1]`.
+
+Relevant class fields that changed?
+
+The `stringList` and `requestLog` ArrayLists should have changed to remove the new string as well as a log for the request, with its time, request type and string removed, or if the removal failed.
+
+### Testing
 
 Assume that the strings in the server carried over from the last section for `/add-message`
 
@@ -159,7 +197,22 @@ Root after removing `test5`:
 
 ![image](pngs/lab5/part1test5removeroot.png)
 
-### Testing `/request-logs`
+### Details and Testing `/request-logs`
+
+### Details
+
+What methods are called?
+* `reqDate()`
+* `reqType()`
+* `message()`
+
+All three of these calls are used to build an output out of the `ServerRequest` ArrayList with a loop that adds the information in a `ServerRequest` and ends with a `\n` newline to add another request on a new line.
+
+Relevant class fields that changed?
+
+None of the arraylists in the class should have changed, only the `outputString` with each request log as a string should be changed and returned.
+
+### Testing
 
 After all the commands from the previous section my command's output looks like the following.
 
