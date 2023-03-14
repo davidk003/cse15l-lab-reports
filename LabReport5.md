@@ -76,12 +76,15 @@ class Handler implements URLHandler {
                             stringList.remove(parameters[1]);
                             count++;
                         }
-                        requestLog.add(new ServerRequest(new Date(System.currentTimeMillis()),"/remove-message", parameters[1]));
-                        return "Removed " + count + " instances of [" + parameters[1] + "] from the stringserver.\n";
+                        requestLog.add(new ServerRequest(
+                            new Date(System.currentTimeMillis()),"/remove-message", parameters[1]));
+                        return "Removed " + count + 
+                          " instances of [" + parameters[1] + "] from the stringserver.\n";
                     }
                     else
                     {
-                        requestLog.add(new ServerRequest(new Date(System.currentTimeMillis()),"/remove-message[FAILED]", parameters[1]));
+                        requestLog.add(new ServerRequest(
+                            new Date(System.currentTimeMillis()),"/remove-message[FAILED]", parameters[1]));
                         return "Failed removing [" + parameters[1] + "], does not exist in stringserver.\n";
                     }
                 }
@@ -90,7 +93,8 @@ class Handler implements URLHandler {
             {
                 outputString = "LOG START\n";
                 for (ServerRequest serverRequest : requestLog) {
-                    outputString = outputString + serverRequest.reqDate() + "| Request: " + serverRequest.reqType() + " " + serverRequest.message() + "\n";
+                    outputString = outputString + serverRequest.reqDate() + 
+                      "| Request: " + serverRequest.reqType() + " " + serverRequest.message() + "\n";
                 }
                 outputString += "LOG END.\n";
                 return outputString;
