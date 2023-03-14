@@ -125,7 +125,7 @@ For the details of each server command, because I already explained the conditio
 What methods are called?
 * 2 `add()` calls
 * `currentTimeMillis()`
-1 call, `stringList.add();` is used to add a string to server, the 2nd call, `requestLog.add()`, is used to log a command request. `currentTimeMillis()` gets the current miliseconds from unix time to be used to log a server request.
+1 call, `stringList.add();` is used to add a string to server, the 2nd call, `requestLog.add()`, is used to log a command request. `currentTimeMillis()` gets the current milliseconds from unix time to be used to log a server request.
 
 Relevant arguments?
 * `parameters[1]` is passed to add to `stringList`, an ArrayList that contains all the strings in the stringserver.
@@ -167,7 +167,7 @@ What methods are called?
 * `currentTimeMillis()`
 * `add()`
 
-2 calls to `contains()` are used to loop and check and to continunally remove all instanced of a string from the string server. `remove()` is used to the string from `stringList`, which contains the strings in the server. `currentTimeMillis()` is used again to record the time for request logging, and `add()` is called to add to the ArrayList recording server requests.
+2 calls to `contains()` are used to loop and check and to continually remove all instances of a string from the string server. `remove()` is used to the string from `stringList`, which contains the strings in the server. `currentTimeMillis()` is used again to record the time for request logging, and `add()` is called to add to the ArrayList recording server requests.
 
 Relevant arguments?
 * `parameters[1]` is passed to check the `stringList` with `contains()` to eventually used as a parameter in `remove()` if the string is found.
@@ -350,4 +350,4 @@ The fix i made for this `reversed()` method was very simple. I noticed that the 
 
 ## Part 3: Reflection
 
-I indirectly learned how to use java's built in Date functionality and how to use the java Record class as a result of implementing the logging functionality. On top of that, I was reminded again on how webservers's path structure and request handling worked through this lab report.
+I indirectly learned how to use java's built-in Date functionality and how to use the java Record class as a result of implementing the logging functionality. On top of that, I was reminded again on how webservers' path structure and request handling worked through this lab report.
